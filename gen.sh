@@ -65,6 +65,7 @@ typedef uint64_t ogg_uint64_t;@" $OUTFILE
 # vorbis headers
 cat $VORBISDIR/include/vorbis/codec.h >> $OUTFILE
 cat $VORBISDIR/include/vorbis/vorbisfile.h >> $OUTFILE
+cat $VORBISDIR/include/vorbis/vorbisenc.h >> $OUTFILE
 
 # ogg implementation
 echo "#ifdef OGG_IMPL" >> $OUTFILE
@@ -137,6 +138,45 @@ EOF
 
   # vorbis file
   cat $VORBISDIR/lib/vorbisfile.c >> $OUTFILE
+
+  # vorbis enc
+  cat $VORBISDIR/lib/vorbisenc.c >> $OUTFILE
+
+  sed -i 's/#include "modes\/setup_44.h"/static const ve_setup_data_template ve_setup_44_stereo;static const vorbis_info_psy _psy_info_template;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_44u.h"/static const ve_setup_data_template ve_setup_44_uncoupled;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_44p51.h"/static const ve_setup_data_template ve_setup_44_51;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_32.h"/static const ve_setup_data_template ve_setup_32_stereo, ve_setup_32_uncoupled;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_22.h"/static const ve_setup_data_template ve_setup_22_stereo, ve_setup_22_uncoupled;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_16.h"/static const ve_setup_data_template ve_setup_16_stereo, ve_setup_16_uncoupled;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_11.h"/static const ve_setup_data_template ve_setup_11_stereo, ve_setup_11_uncoupled;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_8.h"/static const ve_setup_data_template ve_setup_8_stereo, ve_setup_8_uncoupled;/' $OUTFILE
+  sed -i 's/#include "modes\/setup_X.h"/static const ve_setup_data_template ve_setup_X_stereo, ve_setup_X_uncoupled, ve_setup_XX_stereo, ve_setup_XX_uncoupled;/' $OUTFILE
+
+  # vorbisenc internal headers
+  cat $VORBISDIR/lib/books/floor/floor_books.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/floor_all.h >> $OUTFILE
+  cat $VORBISDIR/lib/books/coupled/res_books_stereo.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/residue_44.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/psych_44.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_44.h >> $OUTFILE
+  cat $VORBISDIR/lib/books/uncoupled/res_books_uncoupled.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/residue_44u.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_44u.h >> $OUTFILE
+  cat $VORBISDIR/lib/books/coupled/res_books_51.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/residue_44p51.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_44p51.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_32.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/psych_8.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/residue_8.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_8.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/psych_11.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_11.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/psych_16.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/residue_16.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_16.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_22.h >> $OUTFILE
+  cat $VORBISDIR/lib/modes/setup_X.h >> $OUTFILE
+
 cat <<EOF >> $OUTFILE
 #ifdef __cplusplus
 }
